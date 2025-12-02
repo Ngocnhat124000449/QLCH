@@ -1,0 +1,270 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+
+//////////////////////////////////////////////////////////////
+// USERS
+//////////////////////////////////////////////////////////////
+model Users {
+  UserID       Int      @id @default(autoincrement())
+  FullName     String   @db.VarChar(100)
+  Email        String   @unique @db.VarChar(150)
+  PasswordHash String   @db.VarChar(255)
+  PhoneNumber  String?  @db.VarChar(20)
+  Address      String?  @db.VarChar(255)
+  Role         String   @db.VarChar(20)
+  AvatarURL    String?  @db.VarChar(255)
+  Status       Boolean  @default(true)
+  CreatedAt    DateTime @default(now())
+  UpdatedAt    DateTime @updatedAt
+
+  Cart     Cart?
+  Wishlist WishlistItems[]
+  Orders   Orders[]
+  Reviews  Reviews[]
+}
+
+//////////////////////////////////////////////////////////////
+// CART (1–1 với Users)
+//////////////////////////////////////////////////////////////
+model Cart {
+  CartID    Int      @id @default(autoincrement())
+  UserID    Int      @unique
+  CreatedAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
+
+  User  Users       @relation(fields: [UserID], references: [UserID])
+  Items CartItems[]
+}
+
+//////////////////////////////////////////////////////////////
+// CARTITEMS
+//////////////////////////////////////////////////////////////
+model CartItems {
+  CartItemID Int @id @default(autoincrement())
+  CartID     Int
+  VariantID  Int
+  Quantity   Int
+
+  Cart    Cart            @relation(fields: [CartID], references: [CartID])
+  Variant ProductVariants @relation(fields: [VariantID], references: [VariantID])
+}
+
+//////////////////////////////////////////////////////////////
+// CATEGORIES
+//////////////////////////////////////////////////////////////
+model Categories {
+  CategoryID   Int      @id @default(autoincrement())
+  CategoryName String   @db.VarChar(150)
+  Description  String?  @db.Text
+  ImageURL     String?  @db.VarChar(255)
+  IsActive     Boolean  @default(true)
+  CreatedAt    DateTime @default(now())
+
+  Products Products[]
+}
+
+//////////////////////////////////////////////////////////////
+// PRODUCTS
+//////////////////////////////////////////////////////////////
+model Products {
+  ProductID           Int      @id @default(autoincrement())
+  Name                String   @db.VarChar(200)
+  Description         String?  @db.Text
+  DetailedDescription String?  @db.Text
+  BasePrice           Decimal  @db.Decimal(10, 2)
+  ThumbnailURL        String?  @db.VarChar(255)
+  Stock               Int
+  Status              Boolean  @default(true)
+  CreatedAt           DateTime @default(now())
+  UpdatedAt           DateTime @updatedAt
+
+  CategoryID Int?
+  Category   Categories?             @relation(fields: [CategoryID], references: [CategoryID])
+  Images     ProductImages[]
+  Specs      ProductSpecifications[]
+  Variants   ProductVariants[]
+  Wishlist   WishlistItems[]
+  Reviews    Reviews[]
+
+  InventoryLevels InventoryLevels[]
+  SalesHistory    SalesHistory[]
+  ProductDemand   ProductDemand[]
+}
+
+//////////////////////////////////////////////////////////////
+// PRODUCT IMAGES
+//////////////////////////////////////////////////////////////
+model ProductImages {
+  ImageID      Int      @id @default(autoincrement())
+  ProductID    Int
+  ImageURL     String   @db.VarChar(255)
+  Color        String?  @db.VarChar(50)
+  DisplayOrder Int?
+  IsMain       Boolean  @default(false)
+  CreatedAt    DateTime @default(now())
+
+  Product Products @relation(fields: [ProductID], references: [ProductID])
+}
+
+//////////////////////////////////////////////////////////////
+// PRODUCT SPECIFICATIONS
+//////////////////////////////////////////////////////////////
+model ProductSpecifications {
+  SpecificationID Int      @id @default(autoincrement())
+  ProductID       Int
+  Name            String   @db.VarChar(100)
+  Value           String   @db.VarChar(255)
+  DisplayOrder    Int?
+  CreatedAt       DateTime @default(now())
+
+  Product Products @relation(fields: [ProductID], references: [ProductID])
+}
+
+//////////////////////////////////////////////////////////////
+// PRODUCT VARIANTS
+//////////////////////////////////////////////////////////////
+model ProductVariants {
+  VariantID   Int      @id @default(autoincrement())
+  ProductID   Int
+  VariantName String   @db.VarChar(150)
+  Color       String?  @db.VarChar(50)
+  Storage     String?  @db.VarChar(50)
+  Price       Decimal  @db.Decimal(10, 2)
+  Stock       Int
+  SKU         String?  @db.VarChar(100)
+  ImageURL    String?  @db.VarChar(255)
+  Status      Boolean  @default(true)
+  CreatedAt   DateTime @default(now())
+  UpdatedAt   DateTime @updatedAt
+
+  Product    Products     @relation(fields: [ProductID], references: [ProductID])
+  CartItems  CartItems[]
+  OrderItems OrderItems[]
+}
+
+//////////////////////////////////////////////////////////////
+// PROMOTIONS
+//////////////////////////////////////////////////////////////
+model Promotions {
+  PromotionID       Int      @id @default(autoincrement())
+  PromotionName     String   @db.VarChar(150)
+  Code              String   @db.VarChar(50)
+  DiscountType      String   @db.VarChar(20)
+  DiscountValue     Decimal  @db.Decimal(10, 2)
+  MinimumOrderValue Decimal? @db.Decimal(10, 2)
+  UsageLimit        Int?
+  UsedCount         Int?     @default(0)
+  StartDate         DateTime
+  EndDate           DateTime
+  IsActive          Boolean  @default(true)
+}
+
+//////////////////////////////////////////////////////////////
+// ORDERS
+//////////////////////////////////////////////////////////////
+model Orders {
+  OrderID         Int      @id @default(autoincrement())
+  UserID          Int
+  OrderDate       DateTime @default(now())
+  TotalAmount     Decimal  @db.Decimal(10, 2)
+  Status          String   @db.VarChar(50)
+  ShippingAddress String   @db.VarChar(255)
+  PaymentMethod   String   @db.VarChar(50)
+  Note            String?  @db.Text
+  CreatedAt       DateTime @default(now())
+  UpdatedAt       DateTime @updatedAt
+
+  User  Users        @relation(fields: [UserID], references: [UserID])
+  Items OrderItems[]
+}
+
+//////////////////////////////////////////////////////////////
+// ORDER ITEMS
+//////////////////////////////////////////////////////////////
+model OrderItems {
+  OrderItemID Int     @id @default(autoincrement())
+  OrderID     Int
+  VariantID   Int
+  Quantity    Int
+  UnitPrice   Decimal @db.Decimal(10, 2)
+  TotalPrice  Decimal @db.Decimal(10, 2)
+
+  Order   Orders          @relation(fields: [OrderID], references: [OrderID])
+  Variant ProductVariants @relation(fields: [VariantID], references: [VariantID])
+}
+
+//////////////////////////////////////////////////////////////
+// WISHLIST ITEMS
+//////////////////////////////////////////////////////////////
+model WishlistItems {
+  WishlistItemID Int      @id @default(autoincrement())
+  UserID         Int
+  ProductID      Int
+  AddedAt        DateTime @default(now())
+
+  User    Users    @relation(fields: [UserID], references: [UserID])
+  Product Products @relation(fields: [ProductID], references: [ProductID])
+}
+
+//////////////////////////////////////////////////////////////
+// REVIEWS
+//////////////////////////////////////////////////////////////
+model Reviews {
+  ReviewID  Int      @id @default(autoincrement())
+  UserID    Int
+  ProductID Int
+  Rating    Int
+  Comment   String?  @db.Text
+  IsVisible Boolean  @default(true)
+  CreatedAt DateTime @default(now())
+
+  User    Users    @relation(fields: [UserID], references: [UserID])
+  Product Products @relation(fields: [ProductID], references: [ProductID])
+}
+
+//////////////////////////////////////////////////////////////
+// INVENTORY LEVELS
+//////////////////////////////////////////////////////////////
+model InventoryLevels {
+  InventoryLevelID  Int      @id @default(autoincrement())
+  ProductID         Int
+  CurrentStock      Int
+  LowStockThreshold Int
+  UpdatedAt         DateTime @updatedAt
+  CreatedAt         DateTime @default(now())
+
+  Product Products @relation(fields: [ProductID], references: [ProductID])
+}
+
+//////////////////////////////////////////////////////////////
+// SALES HISTORY
+//////////////////////////////////////////////////////////////
+model SalesHistory {
+  HistoryID Int      @id @default(autoincrement())
+  ProductID Int
+  Quantity  Int
+  SaleDate  DateTime @default(now())
+
+  Product Products @relation(fields: [ProductID], references: [ProductID])
+}
+
+//////////////////////////////////////////////////////////////
+// PRODUCT DEMAND
+//////////////////////////////////////////////////////////////
+model ProductDemand {
+  DemandID  Int      @id @default(autoincrement())
+  ProductID Int
+  Demand    Int
+  UpdatedAt DateTime @updatedAt
+  CreatedAt DateTime @default(now())
+
+  Product Products @relation(fields: [ProductID], references: [ProductID])
+}
