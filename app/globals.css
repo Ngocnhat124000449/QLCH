@@ -1,91 +1,103 @@
-/* --------------------------- */
-/*  TAILWIND v4 BASE IMPORT    */
-/* --------------------------- */
+/* -------------------------------- */
+/*  TAILWIND BASE LAYERS            */
+/* -------------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@import "tailwindcss/preflight";
-@import "tailwindcss/utilities";
+/* -------------------------------- */
+/*  THEME VARIABLES (SHADCN + CUSTOM)
+/* -------------------------------- */
 
-/* --------------------------- */
-/*  THEME VARIABLES (LIGHT)    */
-/* --------------------------- */
+@layer base {
+  :root {
+    --background: 180 25% 96%; /* Light grayish-teal */
+    --foreground: 224 71% 4%;
+    --card: 180 25% 100%;
+    --card-foreground: 224 71% 4%;
+    --popover: 180 25% 100%;
+    --popover-foreground: 224 71% 4%;
+    --primary: 180 100% 25%; /* Deep teal */
+    --primary-foreground: 180 100% 98%;
+    --secondary: 180 15% 90%;
+    --secondary-foreground: 224 71% 4%;
+    --muted: 180 15% 90%;
+    --muted-foreground: 210 5% 45%;
+    --accent: 35 100% 63%; /* Warm yellow-orange */
+    --accent-foreground: 35 100% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 180 10% 85%;
+    --input: 180 10% 85%;
+    --ring: 180 100% 25%;
+    --radius: 0.5rem;
 
-:root {
-  --background: 200 17% 96%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 231 48% 48%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 261 32% 58%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 231 48% 48%;
+    /* Sidebar */
+    --sidebar-background: 210 20% 98%;
+    --sidebar-foreground: 224 71% 4%;
+    --sidebar-primary: 0 72% 51%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 15% 92%;
+    --sidebar-accent-foreground: 224 71% 4%;
+    --sidebar-border: 210 15% 88%;
+    --sidebar-ring: 0 72% 51%;
+  }
 
-  --radius: 0.5rem;
+  .dark {
+    --background: 200 15% 12%; /* Darker teal-gray */
+    --foreground: 210 10% 80%;
+    --card: 200 15% 16%;
+    --card-foreground: 210 10% 80%;
+    --popover: 200 15% 12%;
+    --popover-foreground: 210 10% 80%;
+    --primary: 180 100% 30%; /* Slightly lighter deep teal */
+    --primary-foreground: 180 100% 98%;
+    --secondary: 200 10% 20%;
+    --secondary-foreground: 210 10% 80%;
+    --muted: 200 10% 20%;
+    --muted-foreground: 210 5% 55%;
+    --accent: 35 100% 63%;
+    --accent-foreground: 35 100% 10%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 200 10% 25%;
+    --input: 200 10% 25%;
+    --ring: 180 100% 30%;
+
+    /* Dark sidebar */
+    --sidebar-background: 220 15% 4%;
+    --sidebar-foreground: 210 10% 80%;
+    --sidebar-primary: 0 72% 51%;
+    --sidebar-primary-foreground: 220 100% 98%;
+    --sidebar-accent: 220 10% 12%;
+    --sidebar-accent-foreground: 210 10% 80%;
+    --sidebar-border: 220 10% 18%;
+    --sidebar-ring: 0 72% 51%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
-/* --------------------------- */
-/*  THEME VARIABLES (DARK)     */
-/* --------------------------- */
-
-.dark {
-  --background: 222 47% 11%;
-  --foreground: 210 40% 98%;
-  --card: 222 47% 11%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222 47% 11%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 231 48% 48%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 217 33% 17%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217 33% 17%;
-  --muted-foreground: 215 20% 65%;
-  --accent: 261 32% 58%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 63% 31%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217 33% 17%;
-  --input: 217 33% 17%;
-  --ring: 231 48% 48%;
-}
-
-/* --------------------------- */
-/*  BASE STYLES (NO @apply)    */
-/* --------------------------- */
-
-* {
-  border-color: hsl(var(--border));
-}
-
-body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* --------------------------- */
-/*  MARQUEE ANIMATION (TopBar) */
-/* --------------------------- */
+/* -------------------------------- */
+/*  MARQUEE ANIMATION               */
+/* -------------------------------- */
 
 @keyframes marquee {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }
 
-.animate-marquee {
-  animation: marquee 15s linear infinite;
+/* Class dùng trong component */
+.marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
 }
