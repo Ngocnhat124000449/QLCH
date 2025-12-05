@@ -1,86 +1,243 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { ProductTableRow } from "./product-table-row";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
-export interface ProductItem {
-  ProductID: number;
-  Name: string;
-  Price: number;
-  ThumbnailURL: string;
-  CategoryID: number;
-  Stock: number;
-}
-
-export function ProductTable() {
-  const [products, setProducts] = useState<ProductItem[]>([]);
-  const [search, setSearch] = useState("");
-
-  const fetchProducts = async () => {
-    const res = await fetch(`/api/products?q=${search}`);
-    const data = await res.json();
-    setProducts(data.data || []);
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const handleSearch = () => {
-    fetchProducts();
-  };
-
-  return (
-    <Card className="p-6 border border-[hsl(var(--border))] bg-[hsl(var(--card))]">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Quản lý sản phẩm</h2>
-
-        <div className="flex gap-2">
-          <Input
-            placeholder="Tìm sản phẩm..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-60"
-          />
-          <Button onClick={handleSearch}>Tìm</Button>
-
-          <Button asChild>
-            <a href="/admin/products/create">+ Thêm sản phẩm</a>
-          </Button>
-        </div>
-      </div>
-
-      <div className="overflow-x-auto rounded-md border border-[hsl(var(--border))]">
-        <table className="w-full text-sm">
-          <thead className="bg-[hsl(var(--secondary))] text-[hsl(var(--secondary-foreground))]">
-            <tr>
-              <th className="p-3 text-left">Ảnh</th>
-              <th className="p-3 text-left">Tên sản phẩm</th>
-              <th className="p-3 text-left">Giá</th>
-              <th className="p-3 text-left">Tồn kho</th>
-              <th className="p-3 text-left">Danh mục</th>
-              <th className="p-3 text-right">Thao tác</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {products.length === 0 && (
-              <tr>
-                <td colSpan={6} className="p-4 text-center text-gray-500">
-                  Không có sản phẩm nào.
-                </td>
-              </tr>
-            )}
-
-            {products.map((item) => (
-              <ProductTableRow key={item.ProductID} item={item} onDelete={fetchProducts} />
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </Card>
-  );
-}
+[{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'ID' does not exist on type 'ProductDto'. Did you mean 'id'?",
+	"source": "ts",
+	"startLineNumber": 71,
+	"startColumn": 50,
+	"endLineNumber": 71,
+	"endColumn": 52,
+	"relatedInformation": [
+		{
+			"startLineNumber": 52,
+			"startColumn": 3,
+			"endLineNumber": 52,
+			"endColumn": 5,
+			"message": "'id' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'ID' does not exist on type 'ProductDto'. Did you mean 'id'?",
+	"source": "ts",
+	"startLineNumber": 110,
+	"startColumn": 40,
+	"endLineNumber": 110,
+	"endColumn": 42,
+	"relatedInformation": [
+		{
+			"startLineNumber": 52,
+			"startColumn": 3,
+			"endLineNumber": 52,
+			"endColumn": 5,
+			"message": "'id' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'Name' does not exist on type 'ProductDto'. Did you mean 'name'?",
+	"source": "ts",
+	"startLineNumber": 113,
+	"startColumn": 36,
+	"endLineNumber": 113,
+	"endColumn": 40,
+	"relatedInformation": [
+		{
+			"startLineNumber": 53,
+			"startColumn": 3,
+			"endLineNumber": 53,
+			"endColumn": 7,
+			"message": "'name' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'ThumbnailURL' does not exist on type 'ProductDto'. Did you mean 'thumbnailUrl'?",
+	"source": "ts",
+	"startLineNumber": 116,
+	"startColumn": 36,
+	"endLineNumber": 116,
+	"endColumn": 48,
+	"relatedInformation": [
+		{
+			"startLineNumber": 57,
+			"startColumn": 3,
+			"endLineNumber": 57,
+			"endColumn": 15,
+			"message": "'thumbnailUrl' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'Name' does not exist on type 'ProductDto'. Did you mean 'name'?",
+	"source": "ts",
+	"startLineNumber": 121,
+	"startColumn": 63,
+	"endLineNumber": 121,
+	"endColumn": 67,
+	"relatedInformation": [
+		{
+			"startLineNumber": 53,
+			"startColumn": 3,
+			"endLineNumber": 53,
+			"endColumn": 7,
+			"message": "'name' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'Status' does not exist on type 'ProductDto'. Did you mean 'status'?",
+	"source": "ts",
+	"startLineNumber": 124,
+	"startColumn": 45,
+	"endLineNumber": 124,
+	"endColumn": 51,
+	"relatedInformation": [
+		{
+			"startLineNumber": 62,
+			"startColumn": 3,
+			"endLineNumber": 62,
+			"endColumn": 9,
+			"message": "'status' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'Status' does not exist on type 'ProductDto'. Did you mean 'status'?",
+	"source": "ts",
+	"startLineNumber": 125,
+	"startColumn": 32,
+	"endLineNumber": 125,
+	"endColumn": 38,
+	"relatedInformation": [
+		{
+			"startLineNumber": 62,
+			"startColumn": 3,
+			"endLineNumber": 62,
+			"endColumn": 9,
+			"message": "'status' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'BasePrice' does not exist on type 'ProductDto'. Did you mean 'basePrice'?",
+	"source": "ts",
+	"startLineNumber": 130,
+	"startColumn": 37,
+	"endLineNumber": 130,
+	"endColumn": 46,
+	"relatedInformation": [
+		{
+			"startLineNumber": 56,
+			"startColumn": 3,
+			"endLineNumber": 56,
+			"endColumn": 12,
+			"message": "'basePrice' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'Category' does not exist on type 'ProductDto'. Did you mean 'category'?",
+	"source": "ts",
+	"startLineNumber": 134,
+	"startColumn": 30,
+	"endLineNumber": 134,
+	"endColumn": 38,
+	"relatedInformation": [
+		{
+			"startLineNumber": 69,
+			"startColumn": 3,
+			"endLineNumber": 69,
+			"endColumn": 11,
+			"message": "'category' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'CreatedAt' does not exist on type 'ProductDto'. Did you mean 'createdAt'?",
+	"source": "ts",
+	"startLineNumber": 138,
+	"startColumn": 63,
+	"endLineNumber": 138,
+	"endColumn": 72,
+	"relatedInformation": [
+		{
+			"startLineNumber": 66,
+			"startColumn": 3,
+			"endLineNumber": 66,
+			"endColumn": 12,
+			"message": "'createdAt' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+},{
+	"resource": "/d:/nnn/qlch/components/admin/products/product-table.tsx",
+	"owner": "typescript",
+	"code": "2551",
+	"severity": 8,
+	"message": "Property 'ID' does not exist on type 'ProductDto'. Did you mean 'id'?",
+	"source": "ts",
+	"startLineNumber": 162,
+	"startColumn": 63,
+	"endLineNumber": 162,
+	"endColumn": 65,
+	"relatedInformation": [
+		{
+			"startLineNumber": 52,
+			"startColumn": 3,
+			"endLineNumber": 52,
+			"endColumn": 5,
+			"message": "'id' is declared here.",
+			"resource": "/d:/nnn/qlch/lib/types/product.ts"
+		}
+	],
+	"origin": "extHost1"
+}]
